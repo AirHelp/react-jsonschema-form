@@ -202,20 +202,22 @@ class Editor extends Component {
 
   render() {
     const { title, theme } = this.props;
-    const icon = this.state.valid ? "ok" : "remove";
+    const icon = this.state.valid ? "check" : "times";
     const cls = this.state.valid ? "valid" : "invalid";
     return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          <span className={`${cls} glyphicon glyphicon-${icon}`} />
+      <div className="card">
+        <div className="card-header">
+          <i className={`${cls} fas fa-${icon}`} />
           {" " + title}
         </div>
-        <CodeMirror
-          value={this.state.code}
-          onChange={this.onCodeChange}
-          autoCursor={false}
-          options={Object.assign({}, cmOptions, { theme })}
-        />
+        <div className="card-body">
+          <CodeMirror
+            value={this.state.code}
+            onChange={this.onCodeChange}
+            autoCursor={false}
+            options={Object.assign({}, cmOptions, { theme })}
+          />
+        </div>
       </div>
     );
   }
@@ -244,11 +246,13 @@ class Selector extends Component {
       <ul className="nav nav-pills">
         {Object.keys(samples).map((label, i) => {
           return (
-            <li
-              key={i}
-              role="presentation"
-              className={this.state.current === label ? "active" : ""}>
-              <a href="#" onClick={this.onLabelClick(label)}>
+            <li key={i} role="presentation" className="nav-item">
+              <a
+                href="#"
+                onClick={this.onLabelClick(label)}
+                className={`nav-link ${
+                  this.state.current === label ? "active" : ""
+                }`}>
                 {label}
               </a>
             </li>
@@ -426,70 +430,73 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <div className="col-sm-7">
-          <Editor
-            title="JSONSchema"
-            theme={editor}
-            code={toJson(schema)}
-            onChange={this.onSchemaEdited}
-          />
-          <div className="row">
-            <div className="col-sm-6">
-              <Editor
-                title="UISchema"
-                theme={editor}
-                code={toJson(uiSchema)}
-                onChange={this.onUISchemaEdited}
-              />
-            </div>
-            <div className="col-sm-6">
-              <Editor
-                title="formData"
-                theme={editor}
-                code={toJson(formData)}
-                onChange={this.onFormDataEdited}
-              />
+
+        <div className="row">
+          <div className="col-sm-7">
+            <Editor
+              title="JSONSchema"
+              theme={editor}
+              code={toJson(schema)}
+              onChange={this.onSchemaEdited}
+            />
+            <div className="row">
+              <div className="col-sm-6">
+                <Editor
+                  title="UISchema"
+                  theme={editor}
+                  code={toJson(uiSchema)}
+                  onChange={this.onUISchemaEdited}
+                />
+              </div>
+              <div className="col-sm-6">
+                <Editor
+                  title="formData"
+                  theme={editor}
+                  code={toJson(formData)}
+                  onChange={this.onFormDataEdited}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-sm-5">
-          {this.state.form && (
-            <Form
-              ArrayFieldTemplate={ArrayFieldTemplate}
-              ObjectFieldTemplate={ObjectFieldTemplate}
-              liveValidate={liveValidate}
-              schema={schema}
-              uiSchema={uiSchema}
-              formData={formData}
-              onChange={this.onFormDataChange}
-              onSubmit={({ formData }) =>
-                console.log("submitted formData", formData)
-              }
-              fields={{ geo: GeoPosition }}
-              validate={validate}
-              onBlur={(id, value) =>
-                console.log(`Touched ${id} with value ${value}`)
-              }
-              onFocus={(id, value) =>
-                console.log(`Focused ${id} with value ${value}`)
-              }
-              transformErrors={transformErrors}
-              onError={log("errors")}>
-              <div className="row">
-                <div className="col-sm-3">
-                  <button className="btn btn-primary" type="submit">
-                    Submit
-                  </button>
+          <div className="col-sm-5">
+            {this.state.form && (
+              <Form
+                ArrayFieldTemplate={ArrayFieldTemplate}
+                ObjectFieldTemplate={ObjectFieldTemplate}
+                liveValidate={liveValidate}
+                schema={schema}
+                uiSchema={uiSchema}
+                formData={formData}
+                onChange={this.onFormDataChange}
+                onSubmit={({ formData }) =>
+                  console.log("submitted formData", formData)
+                }
+                fields={{ geo: GeoPosition }}
+                validate={validate}
+                onBlur={(id, value) =>
+                  console.log(`Touched ${id} with value ${value}`)
+                }
+                onFocus={(id, value) =>
+                  console.log(`Focused ${id} with value ${value}`)
+                }
+                transformErrors={transformErrors}
+                onError={log("errors")}>
+                <div className="row">
+                  <div className="col-sm-3">
+                    <button className="btn btn-primary" type="submit">
+                      Submit
+                    </button>
+                  </div>
+                  <div className="col-sm-9 text-right">
+                    <CopyLink
+                      shareURL={this.state.shareURL}
+                      onShare={this.onShare}
+                    />
+                  </div>
                 </div>
-                <div className="col-sm-9 text-right">
-                  <CopyLink
-                    shareURL={this.state.shareURL}
-                    onShare={this.onShare}
-                  />
-                </div>
-              </div>
-            </Form>
-          )}
+              </Form>
+            )}
+          </div>
         </div>
       </div>
     );

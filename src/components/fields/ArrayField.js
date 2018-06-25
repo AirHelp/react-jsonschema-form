@@ -42,39 +42,28 @@ function IconBtn(props) {
       type="button"
       className={`btn btn-${type} ${className}`}
       {...otherProps}>
-      <i className={`glyphicon glyphicon-${icon}`} />
+      <i className={`fas fa-${icon}`} />
     </button>
   );
 }
 
 // Used in the two templates
 function DefaultArrayItem(props) {
-  const btnStyle = {
-    flex: 1,
-    paddingLeft: 6,
-    paddingRight: 6,
-    fontWeight: "bold",
-  };
   return (
-    <div key={props.index} className={props.className}>
-      <div className={props.hasToolbar ? "col-xs-9" : "col-xs-12"}>
+    <div key={props.index} className={`row ${props.className}`}>
+      <div className={props.hasToolbar ? "col-md-3" : "col-md-12"}>
         {props.children}
       </div>
 
       {props.hasToolbar && (
-        <div className="col-xs-3 array-item-toolbox">
-          <div
-            className="btn-group"
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-            }}>
+        <div className="col-md-3 array-item-toolbox">
+          <div className="btn-group">
             {(props.hasMoveUp || props.hasMoveDown) && (
               <IconBtn
                 icon="arrow-up"
                 className="array-item-move-up"
                 tabIndex="-1"
-                style={btnStyle}
+                type="secondary"
                 disabled={props.disabled || props.readonly || !props.hasMoveUp}
                 onClick={props.onReorderClick(props.index, props.index - 1)}
               />
@@ -85,7 +74,7 @@ function DefaultArrayItem(props) {
                 icon="arrow-down"
                 className="array-item-move-down"
                 tabIndex="-1"
-                style={btnStyle}
+                type="secondary"
                 disabled={
                   props.disabled || props.readonly || !props.hasMoveDown
                 }
@@ -96,10 +85,9 @@ function DefaultArrayItem(props) {
             {props.hasRemove && (
               <IconBtn
                 type="danger"
-                icon="remove"
+                icon="times"
                 className="array-item-remove"
                 tabIndex="-1"
-                style={btnStyle}
                 disabled={props.disabled || props.readonly}
                 onClick={props.onDropIndexClick(props.index)}
               />
@@ -131,7 +119,7 @@ function DefaultFixedArrayFieldTemplate(props) {
       )}
 
       <div
-        className="row array-item-list"
+        className="array-item-list"
         key={`array-item-list-${props.idSchema.$id}`}>
         {props.items && props.items.map(DefaultArrayItem)}
       </div>
@@ -169,7 +157,7 @@ function DefaultNormalArrayFieldTemplate(props) {
       )}
 
       <div
-        className="row array-item-list"
+        className="array-item-list"
         key={`array-item-list-${props.idSchema.$id}`}>
         {props.items && props.items.map(p => DefaultArrayItem(p))}
       </div>
@@ -671,11 +659,11 @@ class ArrayField extends Component {
 function AddButton({ onClick, disabled }) {
   return (
     <div className="row">
-      <p className="col-xs-3 col-xs-offset-9 array-item-add text-right">
+      <p className="col-md-3 array-item-add">
         <IconBtn
           type="info"
           icon="plus"
-          className="btn-add col-xs-12"
+          className="btn-add"
           tabIndex="0"
           onClick={onClick}
           disabled={disabled}
