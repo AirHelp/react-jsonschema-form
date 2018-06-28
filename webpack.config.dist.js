@@ -1,7 +1,7 @@
 const resolve = require('path').resolve;
 const webpack = require('webpack');
 
-module.exports = () => ({
+module.exports = {
   mode: 'production',
   context: resolve(__dirname, 'src'),
   entry: './index.js',
@@ -34,4 +34,4 @@ module.exports = () => ({
       }
     ]
   }
-});
+};

@@ -1,52 +1,41 @@
-var path = require("path");
-var webpack = require("webpack");
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const resolve = require('path').resolve;
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  entry: "./playground/app",
+  entry: './playground/app',
   output: {
-    path: path.join(__dirname, "build"),
-    filename: "bundle.js",
-    publicPath: "/static/"
+    path: resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+    publicPath: '/static/'
   },
   plugins: [
-    new ExtractTextPlugin("styles.css", {allChunks: true}),
+    new ExtractTextPlugin('styles.css', { allChunks: true }),
     new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify("production")
-      }
+      'process.env.NODE_ENV': JSON.stringify('production')
     })
   ],
   resolve: {
-    extensions: ["", ".js", ".jsx", ".css"]
+    extensions: ['.js', '.jsx', '.css']
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        loader: "babel",
+        loader: 'babel-loader',
         include: [
-          path.join(__dirname, "src"),
-          path.join(__dirname, "playground"),
-          path.join(__dirname, "node_modules", "codemirror", "mode", "javascript"),
+          resolve(__dirname, 'src'),
+          resolve(__dirname, 'playground'),
+          resolve(__dirname, 'node_modules', 'codemirror', 'mode', 'javascript'),
         ],
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("css-loader"),
+        loader: ExtractTextPlugin.extract('css-loader'),
         include: [
-          path.join(__dirname, "css"),
-          path.join(__dirname, "playground"),
-          path.join(__dirname, "node_modules"),
-        ],
-      },
-      {
-        test: /\.json$/,
-        loader:"json-loader",
-        include: [
-          path.join(__dirname, "css"),
-          path.join(__dirname, "playground"),
-          path.join(__dirname, "node_modules"),
+          resolve(__dirname, 'css'),
+          resolve(__dirname, 'playground'),
+          resolve(__dirname, 'node_modules'),
         ],
       }
     ]
