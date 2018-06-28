@@ -7,8 +7,7 @@ module.exports = {
   entry: "./playground/app",
   output: {
     path: resolve(__dirname, 'build'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    filename: 'bundle.js'
   },
   plugins: [
     new MiniCssExtractPlugin({filename: "styles.css", allChunks: true}),
