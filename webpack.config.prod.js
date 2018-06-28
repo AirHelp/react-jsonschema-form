@@ -6,8 +6,7 @@ module.exports = {
   entry: './playground/app',
   output: {
     path: resolve(__dirname, 'build'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    filename: 'bundle.js'
   },
   plugins: [
     new ExtractTextPlugin('styles.css', { allChunks: true }),
