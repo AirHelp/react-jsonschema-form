@@ -65,7 +65,7 @@ function Help(props) {
   if (!help) {
     return null;
   }
-  return <small class="form-text text-muted">{help}</small>;
+  return <small className="form-text text-muted">{help}</small>;
 }
 
 function ErrorList(props) {
