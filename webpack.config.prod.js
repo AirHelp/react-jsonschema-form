@@ -6,13 +6,16 @@ module.exports = {
   mode: "production",
   entry: "./playground/app",
   output: {
-    path: resolve(__dirname, 'build'),
-    filename: 'bundle.js'
+    path: path.join(__dirname, "build"),
+    filename: "bundle.js",
+    publicPath: "/static/"
   },
   plugins: [
     new MiniCssExtractPlugin({filename: "styles.css", allChunks: true}),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      "process.env": {
+        NODE_ENV: JSON.stringify("production")
+      }
     })
   ],
   resolve: {
@@ -26,9 +29,9 @@ module.exports = {
           "babel-loader",
         ],
         include: [
-          resolve(__dirname, 'src'),
-          resolve(__dirname, 'playground'),
-          resolve(__dirname, 'node_modules', 'codemirror', 'mode', 'javascript'),
+          path.join(__dirname, "src"),
+          path.join(__dirname, "playground"),
+          path.join(__dirname, "node_modules", "codemirror", "mode", "javascript"),
         ],
       },
       {
@@ -40,9 +43,9 @@ module.exports = {
           "css-loader",
         ],
         include: [
-          resolve(__dirname, 'css'),
-          resolve(__dirname, 'playground'),
-          resolve(__dirname, 'node_modules'),
+          path.join(__dirname, "css"),
+          path.join(__dirname, "playground"),
+          path.join(__dirname, "node_modules"),
         ],
       }
     ]

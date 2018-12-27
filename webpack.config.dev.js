@@ -1,16 +1,17 @@
-const resolve = require('path').resolve;
-const webpack = require('webpack');
+var path = require("path");
+var webpack = require("webpack");
 
 module.exports = {
   mode: "development",
   devtool: "eval",
   entry: [
-    './playground/app'
+    "webpack-hot-middleware/client?reload=true",
+    "./playground/app"
   ],
   output: {
-    path: resolve(__dirname, 'build'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    path: path.join(__dirname, "build"),
+    filename: "bundle.js",
+    publicPath: "/static/"
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -23,9 +24,9 @@ module.exports = {
           "babel-loader",
         ],
         include: [
-          resolve(__dirname, 'src'),
-          resolve(__dirname, 'playground'),
-          resolve(__dirname, 'node_modules', 'codemirror', 'mode', 'javascript'),
+          path.join(__dirname, "src"),
+          path.join(__dirname, "playground"),
+          path.join(__dirname, "node_modules", "codemirror", "mode", "javascript"),
         ]
       },
       {
