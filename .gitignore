@@ -1,5 +1,6 @@
 npm-debug.log
 node_modules
-package-lock.json
-package-deps.json
-*.build.log
+build
+dist
+lib
+yarn.lock
