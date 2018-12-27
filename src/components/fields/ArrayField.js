@@ -40,13 +40,13 @@ function ArrayFieldDescription({ DescriptionField, idSchema, description }) {
 // Used in the two templates
 function DefaultArrayItem(props) {
   return (
-    <div key={props.index} className={`row ${props.className}`}>
-      <div className={props.hasToolbar ? "col-md-3" : "col-md-12"}>
+  <div key={props.index} className={`row no-gutters ${props.className}`}>
+      <div className={props.hasToolbar ? "col-9" : "col-12"}>
         {props.children}
       </div>
 
       {props.hasToolbar && (
-        <div className="col-md-3 array-item-toolbox">
+        <div className="col-3 array-item-toolbox">
           <div className="btn-group">
             {(props.hasMoveUp || props.hasMoveDown) && (
               <IconButton
