@@ -40,7 +40,7 @@ function ArrayFieldDescription({ DescriptionField, idSchema, description }) {
 // Used in the two templates
 function DefaultArrayItem(props) {
   return (
-  <div key={props.index} className={`row no-gutters ${props.className}`}>
+    <div key={props.index} className={`row no-gutters ${props.className}`}>
       <div className={props.hasToolbar ? "col-9" : "col-12"}>
         {props.children}
       </div>
