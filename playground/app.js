@@ -211,8 +211,8 @@ class Editor extends Component {
     const icon = this.state.valid ? "ok" : "remove";
     const cls = this.state.valid ? "valid" : "invalid";
     return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
+      <div className="card mb-3">
+        <div className="card-header">
           <span className={`${cls} glyphicon glyphicon-${icon}`} />
           {" " + title}
         </div>
@@ -250,11 +250,13 @@ class Selector extends Component {
       <ul className="nav nav-pills">
         {Object.keys(samples).map((label, i) => {
           return (
-            <li
-              key={i}
-              role="presentation"
-              className={this.state.current === label ? "active" : ""}>
-              <a href="#" onClick={this.onLabelClick(label)}>
+            <li key={i} role="presentation" className="nav-item">
+              <a
+                href="#"
+                onClick={this.onLabelClick(label)}
+                className={
+                  this.state.current === label ? "nav-link active" : "nav-link"
+                }>
                 {label}
               </a>
             </li>
@@ -415,7 +417,7 @@ class App extends Component {
     } = this.state;
 
     return (
-      <div className="container-fluid">
+      <div className="container-fluid row pl-4">
         <div className="page-header">
           <h1>react-jsonschema-form</h1>
           <div className="row">

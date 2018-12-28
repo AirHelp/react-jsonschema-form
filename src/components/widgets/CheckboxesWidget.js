@@ -22,8 +22,6 @@ function CheckboxesWidget(props) {
         const checked = value.indexOf(option.value) !== -1;
         const itemDisabled =
           enumDisabled && enumDisabled.indexOf(option.value) != -1;
-        const disabledCls =
-          disabled || itemDisabled || readonly ? "disabled" : "";
         const checkbox = (
           <input
             type="checkbox"
