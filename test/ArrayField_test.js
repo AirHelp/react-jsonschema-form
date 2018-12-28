@@ -55,7 +55,7 @@ describe("ArrayField", () => {
     it("should render a description", () => {
       const { node } = createFormComponent({ schema });
 
-      const description = node.querySelector("fieldset > .field-description");
+      const description = node.querySelector("fieldset .field-description");
 
       expect(description.textContent).eql("my description");
       expect(description.id).eql("root__description");
@@ -336,7 +336,7 @@ describe("ArrayField", () => {
       } catch (e) {
         // Silencing error thrown as failure is expected here
       }
-
+      debugger
       expect(
         node.querySelectorAll(".has-error .error-detail")
       ).to.have.length.of(1);
@@ -344,7 +344,7 @@ describe("ArrayField", () => {
       const dropBtns = node.querySelectorAll(".array-item-remove");
 
       Simulate.click(dropBtns[0]);
-
+      debugger
       expect(
         node.querySelectorAll(".has-error .error-detail")
       ).to.have.length.of(0);
@@ -722,7 +722,7 @@ describe("ArrayField", () => {
         const { node } = createFormComponent({ schema, uiSchema });
 
         const labels = [].map.call(
-          node.querySelectorAll(".checkbox label"),
+          node.querySelectorAll(".form-check label"),
           node => node.textContent
         );
         expect(labels).eql(["foo", "bar", "fuzz"]);
@@ -775,7 +775,7 @@ describe("ArrayField", () => {
           },
         });
 
-        expect(node.querySelectorAll(".checkbox-inline")).to.have.length.of(3);
+        expect(node.querySelectorAll(".form-check-inline")).to.have.length.of(3);
       });
 
       it("should pass rawErrors down to custom widgets", () => {
