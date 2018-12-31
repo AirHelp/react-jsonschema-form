@@ -322,6 +322,10 @@ describe("ArrayField", () => {
     });
 
     it("should force revalidation when a field is removed", () => {
+      // after react upgraded to v16, throwing error unmounts component
+      // see function submit declaration
+      console.error.restore();
+      sandbox.stub(console, "error");
       // refs #195
       const { node } = createFormComponent({
         schema: {
@@ -336,7 +340,7 @@ describe("ArrayField", () => {
       } catch (e) {
         // Silencing error thrown as failure is expected here
       }
-      debugger
+
       expect(
         node.querySelectorAll(".has-error .error-detail")
       ).to.have.length.of(1);
@@ -344,7 +348,7 @@ describe("ArrayField", () => {
       const dropBtns = node.querySelectorAll(".array-item-remove");
 
       Simulate.click(dropBtns[0]);
-      debugger
+
       expect(
         node.querySelectorAll(".has-error .error-detail")
       ).to.have.length.of(0);
@@ -775,7 +779,9 @@ describe("ArrayField", () => {
           },
         });
 
-        expect(node.querySelectorAll(".form-check-inline")).to.have.length.of(3);
+        expect(node.querySelectorAll(".form-check-inline")).to.have.length.of(
+          3
+        );
       });
 
       it("should pass rawErrors down to custom widgets", () => {

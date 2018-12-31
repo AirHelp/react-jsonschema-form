@@ -304,7 +304,16 @@ describe("SchemaField", () => {
       }
     }
 
+    beforeEach(() => {
+      // after upgrad react to v16, uncatched errors log "Uncaught Error"
+      console.error.restore();
+      sandbox.stub(console, "error");
+    });
+
     it("should render it's own errors", () => {
+      // after upgrad react to v16, uncatched errors log "Uncaught Error"
+      console.error.restore();
+      sandbox.stub(console, "error");
       const { node } = createFormComponent({
         schema,
         uiSchema,
@@ -320,6 +329,10 @@ describe("SchemaField", () => {
     });
 
     it("should pass errors to child component", () => {
+      // after upgrad react to v16, uncatched errors log "Uncaught Error"
+      console.error.restore();
+      sandbox.stub(console, "error");
+
       const { node } = createFormComponent({
         schema,
         uiSchema,

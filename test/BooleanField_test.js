@@ -38,7 +38,7 @@ describe("BooleanField", () => {
       },
     });
 
-    expect(node.querySelector(".field label span").textContent).eql("foo");
+    expect(node.querySelector(".field label").textContent).eql("foo");
   });
 
   it("should render a single label", () => {
@@ -136,7 +136,9 @@ describe("BooleanField", () => {
       },
     });
 
-    expect(node.querySelectorAll(".radio-inline")).to.have.length.of(2);
+    expect(
+      node.querySelectorAll(".form-check-inline [type=radio]")
+    ).to.have.length.of(2);
   });
 
   it("should support enumNames for select", () => {

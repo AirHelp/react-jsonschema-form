@@ -54,7 +54,7 @@ function Label(props) {
     return null;
   }
   return (
-    <label htmlFor={id}>
+    <label className="control-label" htmlFor={id}>
       {label}
       {required && <span className="required">{REQUIRED_FIELD_SYMBOL}</span>}
     </label>
@@ -79,7 +79,7 @@ function Help(props) {
   if (!help) {
     return null;
   }
-  return <small className="form-text text-muted">{help}</small>;
+  return <small className="form-text text-muted help-block">{help}</small>;
 }
 
 function ErrorList(props) {
