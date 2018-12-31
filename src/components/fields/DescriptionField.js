@@ -8,7 +8,9 @@ function DescriptionField(props) {
   }
   return (
     <div>
-      <label id={id} className="field-description">{description}</label>
+      <label id={id} className="field-description">
+        {description}
+      </label>
     </div>
   );
 }
