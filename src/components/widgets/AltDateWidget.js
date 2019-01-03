@@ -135,9 +135,9 @@ class AltDateWidget extends Component {
       options,
     } = this.props;
     return (
-      <ul className="list-inline">
+      <div className="form-inline">
         {this.dateElementProps.map((elemProps, i) => (
-          <li key={i}>
+          <div key={i} className="input-group mx-1">
             <DateElement
               rootId={id}
               select={this.onChange}
@@ -148,30 +148,30 @@ class AltDateWidget extends Component {
               onBlur={onBlur}
               autofocus={autofocus && i === 0}
             />
-          </li>
+          </div>
         ))}
         {(options.hideNowButton !== "undefined"
           ? !options.hideNowButton
           : true) && (
-          <li>
+          <div className="input-group mx-1">
             <a href="#" className="btn btn-info btn-now" onClick={this.setNow}>
               Now
             </a>
-          </li>
+          </div>
         )}
         {(options.hideClearButton !== "undefined"
           ? !options.hideClearButton
           : true) && (
-          <li>
+          <div className="input-group mx-1">
             <a
               href="#"
               className="btn btn-warning btn-clear"
               onClick={this.clear}>
               Clear
             </a>
-          </li>
+          </div>
         )}
-      </ul>
+      </div>
     );
   }
 }

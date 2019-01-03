@@ -51,8 +51,7 @@ function getFieldComponent(schema, uiSchema, idSchema, fields) {
 function Label(props) {
   const { label, required, id } = props;
   if (!label) {
-    // See #312: Ensure compatibility with old versions of React.
-    return <div />;
+    return null;
   }
   return (
     <label className="control-label" htmlFor={id}>
@@ -78,19 +77,15 @@ function LabelInput(props) {
 function Help(props) {
   const { help } = props;
   if (!help) {
-    // See #312: Ensure compatibility with old versions of React.
-    return <div />;
+    return null;
   }
-  if (typeof help === "string") {
-    return <p className="help-block">{help}</p>;
-  }
-  return <div className="help-block">{help}</div>;
+  return <small className="form-text text-muted help-block">{help}</small>;
 }
 
 function ErrorList(props) {
   const { errors = [] } = props;
   if (errors.length === 0) {
-    return <div />;
+    return null;
   }
   return (
     <div>

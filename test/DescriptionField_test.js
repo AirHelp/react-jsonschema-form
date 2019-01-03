@@ -35,13 +35,13 @@ describe("DescriptionField", () => {
     expect(node.tagName).to.equal("DIV");
   });
 
-  it("should return a p for a description text", () => {
+  it("should return a label for a description text", () => {
     const props = {
       description: "description",
     };
     const { node } = createComponent(DescriptionFieldWrapper, props);
 
-    expect(node.tagName).to.equal("P");
+    expect(node.querySelectorAll("div > label")).to.have.length.of(1);
   });
 
   it("should have the expected id", () => {
@@ -51,6 +51,6 @@ describe("DescriptionField", () => {
     };
     const { node } = createComponent(DescriptionFieldWrapper, props);
 
-    expect(node.id).to.equal("sample_id");
+    expect(node.querySelector("div > label").id).to.equal("sample_id");
   });
 });

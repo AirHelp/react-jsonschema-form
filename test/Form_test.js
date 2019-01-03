@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import sinon from "sinon";
 import React from "react";
-import { renderIntoDocument, Simulate } from "react-addons-test-utils";
+import { renderIntoDocument, Simulate } from "react-dom/test-utils";
 import { findDOMNode } from "react-dom";
 
 import Form from "../src";
@@ -451,6 +451,10 @@ describe("Form", () => {
     });
 
     it("should raise for non-existent definitions referenced", () => {
+      // after upgrad react to v16, uncatched errors log "Uncaught Error"
+      console.error.restore();
+      sandbox.stub(console, "error");
+
       const schema = {
         type: "object",
         properties: {
@@ -1055,6 +1059,11 @@ describe("Form", () => {
         });
 
         it("should clean contextualized errors up when they're fixed", () => {
+          // after react upgraded to v16, throwing error unmounts component
+          // see function submit declaration
+          console.error.restore();
+          sandbox.stub(console, "error");
+
           const altSchema = {
             type: "object",
             properties: {

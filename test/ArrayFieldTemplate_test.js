@@ -42,7 +42,18 @@ describe("ArrayFieldTemplate", () => {
     describe("Stateful ArrayFieldTemplate", () => {
       class ArrayFieldTemplate extends PureComponent {
         render() {
-          return <div>{this.props.items.map(item => item.element)}</div>;
+          return (
+            <div>
+              {this.props.items.map((item, key) => {
+                const { className, children } = item;
+                return (
+                  <div key={key} className={className}>
+                    {children}
+                  </div>
+                );
+              })}
+            </div>
+          );
         }
       }
 
@@ -52,8 +63,9 @@ describe("ArrayFieldTemplate", () => {
           formData,
           ArrayFieldTemplate,
         });
-
-        expect(node.querySelectorAll(".field-array div")).to.have.length.of(3);
+        expect(
+          node.querySelectorAll(".field-array .form-control")
+        ).to.have.length.of(3);
       });
     });
 

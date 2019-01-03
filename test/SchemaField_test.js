@@ -1,6 +1,6 @@
 import React from "react";
 import { expect } from "chai";
-import { Simulate } from "react-addons-test-utils";
+import { Simulate } from "react-dom/test-utils";
 
 import SchemaField from "../src/components/fields/SchemaField";
 import TitleField from "../src/components/fields/TitleField";
@@ -303,6 +303,12 @@ describe("SchemaField", () => {
         // Silencing error thrown as failure is expected here
       }
     }
+
+    beforeEach(() => {
+      // after upgrad react to v16, uncatched errors log "Uncaught Error"
+      console.error.restore();
+      sandbox.stub(console, "error");
+    });
 
     it("should render it's own errors", () => {
       const { node } = createFormComponent({

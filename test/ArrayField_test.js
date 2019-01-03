@@ -1,7 +1,7 @@
 import React from "react";
 
 import { expect } from "chai";
-import { Simulate } from "react-addons-test-utils";
+import { Simulate } from "react-dom/test-utils";
 
 import { createFormComponent, createSandbox } from "./test_utils";
 
@@ -55,7 +55,7 @@ describe("ArrayField", () => {
     it("should render a description", () => {
       const { node } = createFormComponent({ schema });
 
-      const description = node.querySelector("fieldset > .field-description");
+      const description = node.querySelector("fieldset .field-description");
 
       expect(description.textContent).eql("my description");
       expect(description.id).eql("root__description");
@@ -322,6 +322,10 @@ describe("ArrayField", () => {
     });
 
     it("should force revalidation when a field is removed", () => {
+      // after react upgraded to v16, throwing error unmounts component
+      // see function submit declaration
+      console.error.restore();
+      sandbox.stub(console, "error");
       // refs #195
       const { node } = createFormComponent({
         schema: {
@@ -722,7 +726,7 @@ describe("ArrayField", () => {
         const { node } = createFormComponent({ schema, uiSchema });
 
         const labels = [].map.call(
-          node.querySelectorAll(".checkbox label"),
+          node.querySelectorAll(".form-check label"),
           node => node.textContent
         );
         expect(labels).eql(["foo", "bar", "fuzz"]);
@@ -775,7 +779,9 @@ describe("ArrayField", () => {
           },
         });
 
-        expect(node.querySelectorAll(".checkbox-inline")).to.have.length.of(3);
+        expect(node.querySelectorAll(".form-check-inline")).to.have.length.of(
+          3
+        );
       });
 
       it("should pass rawErrors down to custom widgets", () => {

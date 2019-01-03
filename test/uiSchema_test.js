@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import React from "react";
-import { Simulate } from "react-addons-test-utils";
+import { Simulate } from "react-dom/test-utils";
 import SelectWidget from "../src/components/widgets/SelectWidget";
 import RadioWidget from "../src/components/widgets/RadioWidget";
 import { createFormComponent, createSandbox } from "./test_utils";
@@ -485,7 +485,7 @@ describe("uiSchema", () => {
 
       const { node } = createFormComponent({ schema, uiSchema });
 
-      expect(node.querySelector("p.help-block").textContent).eql("plop");
+      expect(node.querySelector(".help-block").textContent).eql("plop");
     });
   });
 
@@ -515,7 +515,7 @@ describe("uiSchema", () => {
 
       const { node } = createFormComponent({ schema, uiSchema });
 
-      expect(node.querySelector("p.field-description").textContent).eql("plop");
+      expect(node.querySelector(".field-description").textContent).eql("plop");
     });
   });
 
@@ -529,7 +529,7 @@ describe("uiSchema", () => {
 
     const { node } = createFormComponent({ schema, uiSchema });
 
-    expect(node.querySelector("div.help-block").textContent).eql("plop");
+    expect(node.querySelector(".help-block").textContent).eql("plop");
   });
 
   describe("ui:focus", () => {
