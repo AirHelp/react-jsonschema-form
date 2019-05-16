@@ -359,6 +359,9 @@ class App extends Component {
   load = data => {
     // Reset the ArrayFieldTemplate whenever you load new data
     const { ArrayFieldTemplate, ObjectFieldTemplate } = data;
+    // uiSchema is missing on some examples. Provide a default to
+    // clear the field in all cases.
+    const { uiSchema = {} } = data;
     // force resetting form component instance
     this.setState({ form: false }, _ =>
       this.setState({
@@ -366,6 +369,7 @@ class App extends Component {
         form: true,
         ArrayFieldTemplate,
         ObjectFieldTemplate,
+        uiSchema,
       })
     );
   };
@@ -474,9 +478,10 @@ class App extends Component {
               uiSchema={uiSchema}
               formData={formData}
               onChange={this.onFormDataChange}
-              onSubmit={({ formData }) =>
-                console.log("submitted formData", formData)
-              }
+              onSubmit={({ formData }, e) => {
+                console.log("submitted formData", formData);
+                console.log("submit event", e);
+              }}
               fields={{ geo: GeoPosition }}
               validate={validate}
               onBlur={(id, value) =>
