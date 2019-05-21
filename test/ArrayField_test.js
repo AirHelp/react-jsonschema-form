@@ -40,7 +40,9 @@ describe("ArrayField", () => {
     it("should render a fieldset", () => {
       const { node } = createFormComponent({ schema });
 
-      expect(node.querySelectorAll("fieldset")).to.have.length.of(1);
+      const fieldset = node.querySelectorAll("fieldset");
+      expect(fieldset).to.have.length.of(1);
+      expect(fieldset[0].id).eql("root");
     });
 
     it("should render a fieldset legend", () => {
@@ -59,6 +61,16 @@ describe("ArrayField", () => {
 
       expect(description.textContent).eql("my description");
       expect(description.id).eql("root__description");
+    });
+
+    it("should render a hidden list", () => {
+      const { node } = createFormComponent({
+        schema,
+        uiSchema: {
+          "ui:widget": "hidden",
+        },
+      });
+      expect(node.querySelector("div.hidden > fieldset")).to.exist;
     });
 
     it("should render a customized title", () => {
@@ -119,7 +131,7 @@ describe("ArrayField", () => {
       const matches = node.querySelectorAll("#custom");
       expect(matches).to.have.length.of(1);
       expect(matches[0].textContent).to.eql(
-        "should NOT have less than 2 items"
+        "should NOT have fewer than 2 items"
       );
     });
 
@@ -267,6 +279,50 @@ describe("ArrayField", () => {
       expect(inputs[0].value).eql("foo");
       expect(inputs[1].value).eql("baz");
       expect(inputs[2].value).eql("bar");
+    });
+
+    it("should move from first to last in the list", () => {
+      function moveAnywhereArrayItemTemplate(props) {
+        const buttons = [];
+        for (let i = 0; i < 3; i++) {
+          buttons.push(
+            <button
+              key={i}
+              className={"array-item-move-to-" + i}
+              onClick={props.onReorderClick(props.index, i)}>
+              {"Move item to index " + i}
+            </button>
+          );
+        }
+        return (
+          <div key={props.index} className={"item-" + props.index}>
+            {props.children}
+            {buttons}
+          </div>
+        );
+      }
+
+      function moveAnywhereArrayFieldTemplate(props) {
+        return (
+          <div className="array">
+            {props.items.map(moveAnywhereArrayItemTemplate)}
+          </div>
+        );
+      }
+
+      const { node } = createFormComponent({
+        schema,
+        formData: ["foo", "bar", "baz"],
+        ArrayFieldTemplate: moveAnywhereArrayFieldTemplate,
+      });
+
+      const button = node.querySelector(".item-0 .array-item-move-to-2");
+      Simulate.click(button);
+
+      const inputs = node.querySelectorAll(".field-string input[type=text]");
+      expect(inputs[0].value).eql("bar");
+      expect(inputs[1].value).eql("baz");
+      expect(inputs[2].value).eql("foo");
     });
 
     it("should disable move buttons on the ends of the list", () => {
@@ -706,7 +762,7 @@ describe("ArrayField", () => {
         const matches = node.querySelectorAll("#custom");
         expect(matches).to.have.length.of(1);
         expect(matches[0].textContent).to.eql(
-          "should NOT have duplicate items (items ## 0 and 1 are identical)"
+          "should NOT have duplicate items (items ## 1 and 0 are identical)"
         );
       });
     });
@@ -809,7 +865,7 @@ describe("ArrayField", () => {
         const matches = node.querySelectorAll("#custom");
         expect(matches).to.have.length.of(1);
         expect(matches[0].textContent).to.eql(
-          "should NOT have less than 3 items"
+          "should NOT have fewer than 3 items"
         );
       });
     });
@@ -916,7 +972,7 @@ describe("ArrayField", () => {
       const matches = node.querySelectorAll("#custom");
       expect(matches).to.have.length.of(1);
       expect(matches[0].textContent).to.eql(
-        "should NOT have less than 5 items"
+        "should NOT have fewer than 5 items"
       );
     });
   });
@@ -989,10 +1045,10 @@ describe("ArrayField", () => {
       const matches = node.querySelectorAll("#custom-error");
       expect(matches).to.have.length.of(2);
       expect(matches[0].textContent).to.eql(
-        "should NOT have less than 3 items"
+        "should NOT have fewer than 3 items"
       );
       expect(matches[1].textContent).to.eql(
-        "should NOT have less than 2 items"
+        "should NOT have fewer than 2 items"
       );
     });
   });
@@ -1051,7 +1107,7 @@ describe("ArrayField", () => {
         "fieldset .field-string input[type=text]"
       );
       const numInput = node.querySelector(
-        "fieldset .field-number input[type=text]"
+        "fieldset .field-number input[type=number]"
       );
       expect(strInput.id).eql("root_0");
       expect(numInput.id).eql("root_1");
@@ -1063,7 +1119,7 @@ describe("ArrayField", () => {
         "fieldset .field-string input[type=text]"
       );
       const numInput = node.querySelector(
-        "fieldset .field-number input[type=text]"
+        "fieldset .field-number input[type=number]"
       );
       expect(strInput.required).eql(true);
       expect(numInput.required).eql(true);
@@ -1078,7 +1134,7 @@ describe("ArrayField", () => {
         "fieldset .field-string input[type=text]"
       );
       const numInput = node.querySelector(
-        "fieldset .field-number input[type=text]"
+        "fieldset .field-number input[type=number]"
       );
       expect(strInput.value).eql("foo");
       expect(numInput.value).eql("42");
@@ -1090,7 +1146,7 @@ describe("ArrayField", () => {
         "fieldset .field-string input[type=text]"
       );
       const numInput = node.querySelector(
-        "fieldset .field-number input[type=text]"
+        "fieldset .field-number input[type=number]"
       );
 
       Simulate.change(strInput, { target: { value: "bar" } });
@@ -1109,6 +1165,22 @@ describe("ArrayField", () => {
       );
       expect(addInput.id).eql("root_2");
       expect(addInput.value).eql("bar");
+    });
+
+    it("should apply uiSchema to additionalItems", () => {
+      const { node } = createFormComponent({
+        schema: schemaAdditional,
+        uiSchema: {
+          additionalItems: {
+            "ui:title": "Custom title",
+          },
+        },
+        formData: [1, 2, "bar"],
+      });
+      const label = node.querySelector(
+        "fieldset .field-string label.control-label"
+      );
+      expect(label.textContent).eql("Custom title*");
     });
 
     it("should have an add button if additionalItems is an object", () => {
